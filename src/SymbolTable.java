@@ -13,6 +13,9 @@ public class SymbolTable {
     }
 
     public String findByPosition(Pair position) {
+        if (this.table.size() <= position.getFirst() || this.table.get(position.getFirst()).size() <= position.getSecond()) {
+            throw new IndexOutOfBoundsException("Invalid position");
+        }
         return this.table.get(position.getFirst()).get(position.getSecond());
     }
 
