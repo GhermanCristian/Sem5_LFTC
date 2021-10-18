@@ -13,9 +13,17 @@ public class Parser {
     private final ArrayList<String> RESERVED_WORDS = new ArrayList<>(
             List.of("int", "char", "void", "struct", "while", "if", "else", "main"));
 
-    private String readFile(String filePath) throws FileNotFoundException {
+    private final String filePath;
+    private SymbolTable symbolTable;
+
+    public Parser(String filePath) {
+        this.filePath = filePath;
+        this.symbolTable = new SymbolTable(100);
+    }
+
+    private String readFile() throws FileNotFoundException {
         StringBuilder fileContent = new StringBuilder();
-        Scanner scanner = new Scanner(new File(filePath));
+        Scanner scanner = new Scanner(new File(this.filePath));
         while (scanner.hasNextLine()) {
             fileContent.append(scanner.nextLine());
         }
@@ -24,9 +32,9 @@ public class Parser {
                 .replace("\t", "");
     }
 
-    public List<String> tokenize(String filePath) {
+    private List<String> tokenize() {
         try {
-            String fileContent = this.readFile(filePath);
+            String fileContent = this.readFile();
             return new ArrayList<>(List.of(fileContent.split("[{};: ,\\[\\]()\"]")))
                     .stream()
                     .filter(possibleToken -> possibleToken.length() > 0)
@@ -37,5 +45,31 @@ public class Parser {
         }
 
         return null;
+    }
+
+    private void addToSymbolTable() {
+        List<String> tokens = this.tokenize();
+        if (tokens == null) {
+            return;
+        }
+        tokens.forEach(token -> {
+            System.out.print(token);
+            if (this.RESERVED_WORDS.contains(token)) {
+                System.out.print(" - reserved word");
+            }
+            else if (this.OPERATORS.contains(token)) {
+                System.out.print(" - operator");
+            }
+            else {
+                System.out.print(" - identifier / constant");
+                this.symbolTable.add(token);
+            }
+            System.out.println();
+        });
+    }
+
+    public void parse() {
+        this.addToSymbolTable();
+        System.out.println(this.symbolTable);
     }
 }

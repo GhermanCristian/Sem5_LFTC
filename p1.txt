@@ -5,7 +5,7 @@ int main() {
 
 	d = 2;
 	isPrime = 1;
-	cin>>x;
+	cin>> x;
 	while (d * d <= x) {
 		if (x % d == 0) {
 			isPrime = 0;
