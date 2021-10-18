@@ -1,0 +1,23 @@
+int main() {
+	int x;
+	int d;
+	int isPrime;
+
+	d = 2;
+	isPrime = 1;
+	cin>>x;
+	while (d * d <= x) {
+		if (x % d == 0) {
+			isPrime = 0;
+		}
+		d = d + 1;
+	}
+
+	cout<< x;
+	if (isPrime == 0) {
+		cout<<" is not prime";
+	}
+	else {
+		cout<<" is prime";
+	}
+}
