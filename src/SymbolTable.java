@@ -12,7 +12,7 @@ public class SymbolTable {
         return ASCIISum % size;
     }
 
-    public String findByPosition(Pair position) {
+    public String findByPosition(Pair<Integer, Integer> position) {
         if (this.table.size() <= position.getFirst() || this.table.get(position.getFirst()).size() <= position.getSecond()) {
             throw new IndexOutOfBoundsException("Invalid position");
         }
@@ -23,13 +23,13 @@ public class SymbolTable {
         return this.findPositionOfTerm(term) != null;
     }
 
-    public Pair findPositionOfTerm(String term) {
+    public Pair<Integer, Integer> findPositionOfTerm(String term) {
         int key = this.hashFunction(term);
         if (! this.table.get(key).isEmpty()) {
             ArrayList<String> collisionList = this.table.get(key);
             for (int i = 0; i < collisionList.size(); i++) {
                 if (collisionList.get(i).equals(term)) {
-                    return new Pair(key, i);
+                    return new Pair<>(key, i);
                 }
             }
         }
