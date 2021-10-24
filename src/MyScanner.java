@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class MyScanner {
@@ -86,9 +87,12 @@ public class MyScanner {
             else if (this.OPERATORS.contains(tokenLinePair.getFirst())) {
                 System.out.print(" - operator");
             }
-            else {
+            else if (Pattern.compile("[a-zA-Z0-9 \\-.,!@#$%^&*()]*").matcher(tokenLinePair.getFirst()).matches()) {
                 System.out.print(" - identifier / constant");
                 this.symbolTable.add(tokenLinePair.getFirst());
+            }
+            else {
+                System.out.print(" - lexical error");
             }
             System.out.println();
         });
