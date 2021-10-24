@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-public class Parser {
+public class MyScanner {
     private final ArrayList<String> OPERATORS = new ArrayList<>(
-            List.of("+", "-", "*", "/", "<", "<=", "==", ">=", "%", "=", "cin>>", "cout<<"));
+            List.of("+", "-", "*", "/", "<=", ">=", "==", "<", ">", "%", "=", "cin>>", "cout<<"));
     private final ArrayList<String> SEPARATORS = new ArrayList<>(
             List.of("{", "}", ":", ";", " ", ",", "[", "]", "(", ")"));
     private final ArrayList<String> RESERVED_WORDS = new ArrayList<>(
@@ -16,7 +16,7 @@ public class Parser {
     private final String filePath;
     private SymbolTable symbolTable;
 
-    public Parser(String filePath) {
+    public MyScanner(String filePath) {
         this.filePath = filePath;
         this.symbolTable = new SymbolTable(100);
     }
@@ -68,7 +68,7 @@ public class Parser {
         });
     }
 
-    public void parse() {
+    public void scan() {
         this.addToSymbolTable();
         System.out.println(this.symbolTable);
     }
