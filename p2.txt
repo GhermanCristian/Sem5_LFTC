@@ -1,0 +1,24 @@
+int main() {
+	int a;
+	int b;
+	int c;
+	int maxTemp;
+
+	cin>> a;
+	cin>> b;
+	cin>> c;
+
+	if (a > b) {
+		maxTemp = a;
+	}
+	else {
+		maxTemp = b;
+	}
+	if (maxTemp > c) {
+		cout<< maxTemp;
+	}
+	else {
+		cout<< c;
+	}
+	cout<< " is the max value";
+}

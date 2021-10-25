@@ -1,0 +1,18 @@
+int main() {
+	int n;
+	int i;
+	int sum;
+	int x;
+
+	cin>> n;
+
+	i = 0;
+	sum = 0;
+	while (i < n) {
+		cin>> x;
+		sum = sum + x;
+		i = i + 1;
+	}
+
+	cout<< sum;
+}

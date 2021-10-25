@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -76,6 +77,7 @@ public class MyScanner {
 
     private void addToSymbolTable() {
         List<Pair<String, Integer>> tokens = this.tokenize();
+        AtomicBoolean foundLexicalError = new AtomicBoolean(false);
         if (tokens == null) {
             return;
         }
@@ -93,9 +95,14 @@ public class MyScanner {
             }
             else {
                 System.out.print(" - lexical error");
+                foundLexicalError.set(true);
             }
             System.out.println();
         });
+
+        if (!foundLexicalError.get()) {
+            System.out.println("Lexically correct");
+        }
     }
 
     public void scan() {
