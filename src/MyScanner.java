@@ -77,7 +77,7 @@ public class MyScanner {
         return null;
     }
 
-    private void addToSymbolTable() {
+    public void scan() {
         List<Pair<String, Integer>> tokens = this.tokenize();
         AtomicBoolean foundLexicalError = new AtomicBoolean(false);
         if (tokens == null) {
@@ -85,12 +85,22 @@ public class MyScanner {
         }
         tokens.forEach(tokenLinePair -> {
             String token = tokenLinePair.getFirst();
-            if (this.RESERVED_WORDS.contains(token) || this.OPERATORS.contains(token) || this.SEPARATORS.contains(token)) {
-                this.pif.add(new Pair<>(token, new Pair<>(-1, -1)));
+            if (this.RESERVED_WORDS.contains(token)) {
+                this.pif.add(new Pair<>(token, new Pair<>(-1, -1)), 2);
             }
-            else if (Pattern.compile("[a-zA-Z0-9 \\-.,!@#$%^&*()]*").matcher(token).matches()) {
+            else if (this.OPERATORS.contains(token)) {
+                this.pif.add(new Pair<>(token, new Pair<>(-1, -1)), 3);
+            }
+            else if (this.SEPARATORS.contains(token)) {
+                this.pif.add(new Pair<>(token, new Pair<>(-1, -1)), 4);
+            }
+            else if (Pattern.compile("[a-zA-Z][a-zA-Z0-9]*").matcher(token).matches()) { // identifier
                 this.symbolTable.add(token);
-                this.pif.add(new Pair<>(token, this.symbolTable.findPositionOfTerm(token)));
+                this.pif.add(new Pair<>(token, this.symbolTable.findPositionOfTerm(token)), 0);
+            }
+            else if (Pattern.compile("[a-zA-Z0-9 \\-.,!@#$%^&*()]*").matcher(token).matches()) { // constant
+                this.symbolTable.add(token);
+                this.pif.add(new Pair<>(token, this.symbolTable.findPositionOfTerm(token)), 1);
             }
             else {
                 System.out.println("Lexical error, line " + tokenLinePair.getSecond());
@@ -101,10 +111,6 @@ public class MyScanner {
         if (!foundLexicalError.get()) {
             System.out.println("Lexically correct");
         }
-    }
-
-    public void scan() {
-        this.addToSymbolTable();
     }
 
     public PIF getPif() {
