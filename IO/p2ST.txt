@@ -1,0 +1,6 @@
+32 - [maxTemp]
+36 - [ is the max value]
+97 - [a]
+98 - [b]
+99 - [c]
+
