@@ -85,29 +85,17 @@ public class MyScanner {
         }
         tokens.forEach(tokenLinePair -> {
             String token = tokenLinePair.getFirst();
-            System.out.print(token + "   " + tokenLinePair.getSecond());
-            if (this.RESERVED_WORDS.contains(token)) {
-                System.out.print(" - reserved word");
-                this.pif.add(new Pair<>(token, new Pair<>(-1, -1)));
-            }
-            else if (this.OPERATORS.contains(token)) {
-                System.out.print(" - operator");
-                this.pif.add(new Pair<>(token, new Pair<>(-1, -1)));
-            }
-            else if (this.SEPARATORS.contains(token)) {
-                System.out.print(" - separator");
+            if (this.RESERVED_WORDS.contains(token) || this.OPERATORS.contains(token) || this.SEPARATORS.contains(token)) {
                 this.pif.add(new Pair<>(token, new Pair<>(-1, -1)));
             }
             else if (Pattern.compile("[a-zA-Z0-9 \\-.,!@#$%^&*()]*").matcher(token).matches()) {
-                System.out.print(" - identifier / constant");
                 this.symbolTable.add(token);
                 this.pif.add(new Pair<>(token, this.symbolTable.findPositionOfTerm(token)));
             }
             else {
-                System.out.print(" - lexical error");
+                System.out.println("Lexical error, line " + tokenLinePair.getSecond());
                 foundLexicalError.set(true);
             }
-            System.out.println();
         });
 
         if (!foundLexicalError.get()) {
@@ -117,7 +105,13 @@ public class MyScanner {
 
     public void scan() {
         this.addToSymbolTable();
-        System.out.println(this.symbolTable);
-        System.out.println(this.pif);
+    }
+
+    public PIF getPif() {
+        return this.pif;
+    }
+
+    public SymbolTable getSymbolTable() {
+        return this.symbolTable;
     }
 }
