@@ -58,7 +58,9 @@ public class SymbolTable {
     public String toString() {
         StringBuilder representation = new StringBuilder();
         for (int i = 0; i < this.table.size(); i++) {
-            representation.append(i).append(" - ").append(this.table.get(i)).append("\n");
+            if (this.table.get(i).size() > 0) {
+                representation.append(i).append(" - ").append(this.table.get(i)).append("\n");
+            }
         }
         return representation.toString();
     }

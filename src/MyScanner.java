@@ -14,11 +14,13 @@ public class MyScanner {
             List.of("int", "char", "void", "struct", "while", "if", "else", "main"));
 
     private final String filePath;
+    private PIF pif;
     private SymbolTable symbolTable;
 
     public MyScanner(String filePath) {
         this.filePath = filePath;
         this.symbolTable = new SymbolTable(100);
+        this.pif = new PIF();
     }
 
     private String readFile() throws FileNotFoundException {
@@ -51,7 +53,7 @@ public class MyScanner {
                 if (inString) { // add the current token to the string
                     currentString.append(token);
                 }
-                else if (!this.SEPARATORS.contains(token)) {
+                else if (!token.equals(" ")) {
                     tokensWithCompleteStrings.add(new Pair<>(token, lineNumber));
                 }
             }
@@ -82,16 +84,24 @@ public class MyScanner {
             return;
         }
         tokens.forEach(tokenLinePair -> {
-            System.out.print(tokenLinePair.getFirst() + "   " + tokenLinePair.getSecond());
-            if (this.RESERVED_WORDS.contains(tokenLinePair.getFirst())) {
+            String token = tokenLinePair.getFirst();
+            System.out.print(token + "   " + tokenLinePair.getSecond());
+            if (this.RESERVED_WORDS.contains(token)) {
                 System.out.print(" - reserved word");
+                this.pif.add(new Pair<>(token, new Pair<>(-1, -1)));
             }
-            else if (this.OPERATORS.contains(tokenLinePair.getFirst())) {
+            else if (this.OPERATORS.contains(token)) {
                 System.out.print(" - operator");
+                this.pif.add(new Pair<>(token, new Pair<>(-1, -1)));
             }
-            else if (Pattern.compile("[a-zA-Z0-9 \\-.,!@#$%^&*()]*").matcher(tokenLinePair.getFirst()).matches()) {
+            else if (this.SEPARATORS.contains(token)) {
+                System.out.print(" - separator");
+                this.pif.add(new Pair<>(token, new Pair<>(-1, -1)));
+            }
+            else if (Pattern.compile("[a-zA-Z0-9 \\-.,!@#$%^&*()]*").matcher(token).matches()) {
                 System.out.print(" - identifier / constant");
-                this.symbolTable.add(tokenLinePair.getFirst());
+                this.symbolTable.add(token);
+                this.pif.add(new Pair<>(token, this.symbolTable.findPositionOfTerm(token)));
             }
             else {
                 System.out.print(" - lexical error");
@@ -107,6 +117,7 @@ public class MyScanner {
 
     public void scan() {
         this.addToSymbolTable();
-        //System.out.println(this.symbolTable);
+        System.out.println(this.symbolTable);
+        System.out.println(this.pif);
     }
 }
