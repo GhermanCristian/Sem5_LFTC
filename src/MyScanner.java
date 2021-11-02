@@ -9,7 +9,7 @@ public class MyScanner {
     private final ArrayList<String> OPERATORS = new ArrayList<>(
             List.of("+", "-", "*", "/", "<=", ">=", "==", "<", ">", "%", "=", "cin>>", "cout<<"));
     private final ArrayList<String> SEPARATORS = new ArrayList<>(
-            List.of("{", "}", ":", ";", " ", ",", "[", "]", "(", ")", "\"", "\n"));
+            List.of("{", "}", ":", ";", " ", "'", ",", "[", "]", "(", ")", "\"", "\n"));
     private final ArrayList<String> RESERVED_WORDS = new ArrayList<>(
             List.of("int", "char", "void", "struct", "while", "if", "else", "main"));
 
@@ -40,6 +40,7 @@ public class MyScanner {
 
         for (String token : tokensIncludingSeparators) {
             if (token.equals("\"")) {
+                currentString.append(token);
                 if (inString) { // end of string
                     tokensWithCompleteStrings.add(new Pair<>(currentString.toString(), lineNumber));
                     currentString = new StringBuilder();
@@ -94,11 +95,11 @@ public class MyScanner {
             else if (this.SEPARATORS.contains(token)) {
                 this.pif.add(new Pair<>(token, new Pair<>(-1, -1)), 4);
             }
-            else if (Pattern.compile("[a-zA-Z][a-zA-Z0-9]*").matcher(token).matches()) { // identifier
+            else if (Pattern.compile("[a-zA-Z][a-zA-Z0-9_]*").matcher(token).matches()) { // identifier
                 this.symbolTable.add(token);
                 this.pif.add(new Pair<>(token, this.symbolTable.findPositionOfTerm(token)), 0);
             }
-            else if (Pattern.compile("[a-zA-Z0-9 \\-.,!@#$%^&*()]*").matcher(token).matches()) { // constant
+            else if (Pattern.compile("\"[a-zA-Z0-9 ]*\"|'[a-zA-Z0-9 ]'|0|[+-]?[1-9][0-9]*").matcher(token).matches()) { // constant
                 this.symbolTable.add(token);
                 this.pif.add(new Pair<>(token, this.symbolTable.findPositionOfTerm(token)), 1);
             }

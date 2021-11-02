@@ -1,8 +1,8 @@
 11 - [o]
 20 - [x]
 22 - [cop]
+24 - ["Is not palindrome"]
 48 - [0]
-56 - [Is not palindrome]
-87 - [Is palindrome]
+55 - ["Is palindrome"]
 97 - [10]
 
