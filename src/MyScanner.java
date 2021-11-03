@@ -95,11 +95,11 @@ public class MyScanner {
             else if (this.SEPARATORS.contains(token)) {
                 this.pif.add(new Pair<>(token, new Pair<>(-1, -1)), 4);
             }
-            else if (Pattern.compile("[a-zA-Z][a-zA-Z0-9_]*").matcher(token).matches()) { // identifier
+            else if (new FiniteAutomaton("IO/FA_identifier.txt").acceptsSequence(token)) { // identifier
                 this.symbolTable.add(token);
                 this.pif.add(new Pair<>(token, this.symbolTable.findPositionOfTerm(token)), 0);
             }
-            else if (Pattern.compile("\"[a-zA-Z0-9 ]*\"|'[a-zA-Z0-9 ]'|0|[+-]?[1-9][0-9]*").matcher(token).matches()) { // constant
+            else if (Pattern.compile("\"[a-zA-Z0-9 ]*\"|'[a-zA-Z0-9 ]'").matcher(token).matches() || new FiniteAutomaton("IO/FA_integerConstants.txt").acceptsSequence(token)) { // constant
                 this.symbolTable.add(token);
                 this.pif.add(new Pair<>(token, this.symbolTable.findPositionOfTerm(token)), 1);
             }
