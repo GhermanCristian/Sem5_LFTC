@@ -6,11 +6,22 @@ public class FiniteAutomaton {
     private final String ELEMENT_SEPARATOR = ";";
     private final String TRANSITION_SEPARATOR = "`";
 
+    private boolean isDeterministic;
     private String initialState;
     private List<String> states;
     private List<String> alphabet;
     private Map<String, Set<Pair<String, String>>> transitions;
     private List<String> finalStates;
+
+    private boolean checkIfDeterministic() {
+        for (String state : this.transitions.keySet()) {
+            long uniqueSymbols = this.transitions.get(state).stream().map(Pair::getSecond).distinct().count();
+            if (uniqueSymbols != this.transitions.get(state).size()) {
+                return false; // at least one symbol leads to different states
+            }
+        }
+        return true;
+    }
 
     private void readFromFile(String filePath) {
         // assume the file is valid
@@ -28,6 +39,7 @@ public class FiniteAutomaton {
             }
 
             this.finalStates = new ArrayList<>(List.of(scanner.nextLine().split(this.ELEMENT_SEPARATOR)));
+            this.isDeterministic = this.checkIfDeterministic();
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -55,6 +67,10 @@ public class FiniteAutomaton {
     }
 
     public boolean acceptsSequence(String sequence) {
+        if (! this.isDeterministic) {
+            return false;
+        }
+
         String currentState = this.initialState;
         for (int i = 0; i < sequence.length(); i++) {
             String currentSymbol = sequence.substring(i, i + 1);
