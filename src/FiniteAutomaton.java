@@ -4,7 +4,7 @@ import java.util.*;
 
 public class FiniteAutomaton {
     private final String ELEMENT_SEPARATOR = ";";
-    private final String TRANSITION_SEPARATOR = "-";
+    private final String TRANSITION_SEPARATOR = "`";
 
     private String initialState;
     private List<String> states;
@@ -59,6 +59,9 @@ public class FiniteAutomaton {
         for (int i = 0; i < sequence.length(); i++) {
             String currentSymbol = sequence.substring(i, i + 1);
             Set<Pair<String, String>> nextTransitions = this.transitions.get(currentState);
+            if (nextTransitions == null) {
+                return false;
+            }
 
             boolean foundNext = false;
             for (Pair<String, String> stateSymbolPair: nextTransitions) {
