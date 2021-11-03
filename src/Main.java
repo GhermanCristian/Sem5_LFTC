@@ -19,9 +19,11 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        run("IO/p1.txt");
-        run("IO/p2.txt");
-        run("IO/p3.txt");
-        run("IO/perr.txt");
+        FiniteAutomaton FA1 = new FiniteAutomaton("IO/FA1.txt");
+        System.out.println(FA1.getStates());
+        System.out.println(FA1.getAlphabet());
+        System.out.println(FA1.getTransitions());
+        System.out.println(FA1.getFinalStates());
+        System.out.println(FA1.acceptsSequence("aaaaadcb"));
     }
 }
