@@ -53,4 +53,27 @@ public class FiniteAutomaton {
     public List<String> getFinalStates() {
         return this.finalStates;
     }
+
+    public boolean acceptsSequence(String sequence) {
+        String currentState = this.initialState;
+        for (int i = 0; i < sequence.length(); i++) {
+            String currentSymbol = sequence.substring(i, i + 1);
+            Set<Pair<String, String>> nextTransitions = this.transitions.get(currentState);
+
+            boolean foundNext = false;
+            for (Pair<String, String> stateSymbolPair: nextTransitions) {
+                if (stateSymbolPair.getSecond().equals(currentSymbol)) {
+                    currentState = stateSymbolPair.getFirst();
+                    foundNext = true;
+                    break;
+                }
+            }
+
+            if (!foundNext) {
+                return false;
+            }
+        }
+
+        return this.finalStates.contains(currentState);
+    }
 }
