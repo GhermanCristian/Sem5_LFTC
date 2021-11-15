@@ -19,11 +19,10 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        FiniteAutomaton FA1 = new FiniteAutomaton("IO/FA1.txt");
-        System.out.println(FA1.getStates());
-        System.out.println(FA1.getAlphabet());
-        System.out.println(FA1.getTransitions());
-        System.out.println(FA1.getFinalStates());
-        System.out.println(FA1.acceptsSequence("aaaaadcb"));
+        Grammar g = new Grammar("IO/G1.txt");
+        System.out.println(g.getNonterminals());
+        System.out.println(g.getTerminals());
+        System.out.println(g.getStartingSymbol());
+        System.out.println(g.getTransitions());
     }
 }
