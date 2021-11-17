@@ -24,5 +24,6 @@ public class Main {
         System.out.println(g.getTerminals());
         System.out.println(g.getStartingSymbol());
         System.out.println(g.getProductions());
+        System.out.println(g.isCFG());
     }
 }
