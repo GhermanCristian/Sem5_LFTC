@@ -1,5 +1,5 @@
-Ss;Aaa
-0;1
+Ss;;Aaa
+0;;1
 Ss
 Ss`0 Aaa`1
 Aaa`1`0

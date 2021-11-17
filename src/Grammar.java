@@ -4,22 +4,22 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Grammar {
-    private final String ELEMENT_SEPARATOR = ";";
+    private final String ELEMENT_SEPARATOR = ";;";
     private final String TRANSITION_SEPARATOR = "`";
     private final String INSIDE_TRANSITION_SEPARATOR = " ";
     private final String EPSILON = "EPS";
 
     // LL1
-    private List<String> nonterminals;
-    private List<String> terminals;
+    private Set<String> nonterminals;
+    private Set<String> terminals;
     private Map<String, Set<List<String>>> productions;
     private String startingSymbol;
     private boolean isCFG;
 
     private void loadFromFile(String filePath) {
         try (Scanner scanner = new Scanner(new File(filePath))) {
-            this.nonterminals = new ArrayList<>(List.of(scanner.nextLine().split(this.ELEMENT_SEPARATOR)));
-            this.terminals = new ArrayList<>(List.of(scanner.nextLine().split(this.ELEMENT_SEPARATOR)));
+            this.nonterminals = new HashSet<>(List.of(scanner.nextLine().split(this.ELEMENT_SEPARATOR)));
+            this.terminals = new HashSet<>(List.of(scanner.nextLine().split(this.ELEMENT_SEPARATOR)));
             this.startingSymbol = scanner.nextLine();
 
             this.productions = new HashMap<>();
@@ -66,11 +66,11 @@ public class Grammar {
         this.loadFromFile(filePath);
     }
 
-    public List<String> getNonterminals() {
+    public Set<String> getNonterminals() {
         return this.nonterminals;
     }
 
-    public List<String> getTerminals() {
+    public Set<String> getTerminals() {
         return this.terminals;
     }
 
