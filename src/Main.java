@@ -23,6 +23,6 @@ public class Main {
         System.out.println(g.getNonterminals());
         System.out.println(g.getTerminals());
         System.out.println(g.getStartingSymbol());
-        System.out.println(g.getTransitions());
+        System.out.println(g.getProductions());
     }
 }
