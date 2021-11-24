@@ -1,19 +1,19 @@
 term;;exprOperator;;expression;;relOperator;;condition;;assignStatement;;inputStatement;;outputStatement;;ifStatement;;whileStatement;;compStatement;;type;;declarationStatement;;statement;;statementList;;program
 identifier;;constant;;+;;-;;*;;/;;%;;<;;<=;;==;;>=;;>;;=;;cin>>;;cout<<;;if;;else;;while;;int;;char;;void;;struct;;main;;{;;};;(;;);;;
 program
-term`constant`identifier
-exprOperator`+`-`/`*`%
-expression`expression exprOperator term`term
-relOperator`=`<`<=`==`>=`>
-condition`expression relOperator expression
-assignStatement`identifier = expression`
-inputStatement`cin>> identifier
-outputStatement`cout<< term
-ifStatement`if ( condition ) compStatement else compStatement
-whileStatement`while ( condition ) compStatement
-type`int`char`void`struct
-declarationStatement`type identifier
-statement`assignStatement ;`inputStatement ;`outputStatement ;`ifStatement ;`whileStatement ;`declarationStatement ;
-statementList`statement`statement ; statementList
-compStatement`{ statementList }
-program`int main ( ) compStatement
+term->constant|identifier
+exprOperator->+|-|/|*|%
+expression->expression exprOperator term|term
+relOperator->=|<|<=|==|>=|>
+condition->expression relOperator expression
+assignStatement->identifier = expression|
+inputStatement->cin>> identifier
+outputStatement->cout<< term
+ifStatement->if ( condition ) compStatement else compStatement
+whileStatement->while ( condition ) compStatement
+type->int|char|void|struct
+declarationStatement->type identifier
+statement->assignStatement ;|inputStatement ;|outputStatement ;|ifStatement ;|whileStatement ;|declarationStatement ;
+statementList->statement|statement ; statementList
+compStatement->{ statementList }
+program->int main ( ) compStatement
