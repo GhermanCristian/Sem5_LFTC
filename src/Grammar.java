@@ -87,6 +87,11 @@ public class Grammar {
         return this.productions;
     }
 
+    public Set<List<String>> getProductionsForNonterminal(String nonterminal) {
+        // assume CFG
+        return this.productions.get(List.of(nonterminal));
+    }
+
     public String getStartingSymbol() {
         return this.startingSymbol;
     }
