@@ -26,14 +26,16 @@ public class FirstSet {
                 .collect(Collectors.toSet());
     }
 
-    private Set<String> getPreviousFirst(String element) {
+    public Set<String> getPreviousFirst(String element) {
         if (this.grammar.getTerminals().contains(element) || Constants.EPSILON.equals(element)) {
-            return Set.of(element);
+            Set<String> newSet = new HashSet<>();
+            newSet.add(element);
+            return newSet;
         }
         return this.firstSets.get(element);
     }
 
-    private Set<String> computeConcatenationMultipleElementsInRHS(List<String> productionRHS) {
+    public Set<String> computeFIRSTConcatenationRHS(List<String> productionRHS) {
         if (productionRHS.size() == 0) {
             throw new RuntimeException("Empty production RHS");
         }
@@ -57,9 +59,9 @@ public class FirstSet {
             sameSets = true;
             Map<String, Set<String>> temporaryFirstSets = new HashMap<>();
             for (String nonterminal : this.grammar.getNonterminals()) {
-                temporaryFirstSets.put(nonterminal, new HashSet<>());
+                temporaryFirstSets.put(nonterminal, new HashSet<>(this.firstSets.get(nonterminal)));
                 this.grammar.getProductionsForNonterminal(nonterminal)
-                        .forEach(productionRHS -> temporaryFirstSets.get(nonterminal).addAll(this.computeConcatenationMultipleElementsInRHS(productionRHS)));
+                        .forEach(productionRHS -> temporaryFirstSets.get(nonterminal).addAll(this.computeFIRSTConcatenationRHS(productionRHS)));
                 if (! temporaryFirstSets.get(nonterminal).equals(this.firstSets.get(nonterminal))) {
                     sameSets = false;
                 }
