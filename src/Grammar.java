@@ -23,9 +23,7 @@ public class Grammar {
         String[] splitRHS = leftAndRightHandSide[1].split(this.TRANSITION_OR_SEPARATOR);
 
         this.productions.putIfAbsent(splitLHS, new HashSet<>());
-        for (int i = 1; i < splitRHS.length; i++) {
-            this.productions.get(splitLHS).add(Arrays.stream(splitRHS[i].split(this.TRANSITION_CONCATENATION)).collect(Collectors.toList()));
-        }
+        Arrays.stream(splitRHS).forEach(splitRH -> this.productions.get(splitLHS).add(Arrays.stream(splitRH.split(this.TRANSITION_CONCATENATION)).collect(Collectors.toList())));
     }
 
     private void loadFromFile(String filePath) {

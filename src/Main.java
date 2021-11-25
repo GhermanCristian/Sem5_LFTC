@@ -19,12 +19,13 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        Grammar g = new Grammar("IO/G2.txt");
+        Grammar g = new Grammar("IO/G1.txt");
         System.out.println("Nonterminals - " + g.getNonterminals());
         System.out.println("Terminals - " + g.getTerminals());
         System.out.println("Starting symbol - " + g.getStartingSymbol());
         System.out.println("Productions - ");
         g.getProductions().forEach((lhs, rhs) -> System.out.println(lhs + "->" + rhs));
         System.out.println("Is CFG ? " + g.isCFG());
+        new Parser(g).parse();
     }
 }

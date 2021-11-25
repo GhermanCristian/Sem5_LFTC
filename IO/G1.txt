@@ -1,5 +1,7 @@
-Ss;;Aaa
-0;;1
-Ss
-Ss->0 Aaa|1
-Aaa->1|0
+S;;A;;B;;C
+(;;);;int;;+;;*;;
+S
+S->A B
+A->( S )|int C
+B->+ S|EPS
+C->* A|EPS
