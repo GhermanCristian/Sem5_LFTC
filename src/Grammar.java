@@ -7,7 +7,6 @@ public class Grammar {
     private final String ELEMENT_SEPARATOR = ";;";
     private final String TRANSITION_OR_SEPARATOR = "\\|";
     private final String TRANSITION_CONCATENATION = " ";
-    private final String EPSILON = "EPS";
     private final String SEPARATOR_LEFT_RIGHT_HAND_SIDE = "->";
 
     // LL1
@@ -59,7 +58,7 @@ public class Grammar {
                 for (String possibleNextMove : possibleNextMoves) {
                     if (! (this.nonterminals.contains(possibleNextMove) ||
                             this.terminals.contains(possibleNextMove) ||
-                            possibleNextMove.equals(this.EPSILON))) {
+                            possibleNextMove.equals(Constants.EPSILON))) {
                         return false;
                     }
                 }
