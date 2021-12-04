@@ -6,15 +6,15 @@ public class FollowSet {
     private final Grammar grammar;
     private final FirstSet firstSets;
 
-    private List<Pair<String, Set<List<String>>>> findProductionsWhichContainNonterminal(String nonterminal) {
-        List<Pair<String, Set<List<String>>>> productionsWhichContainNonterminal = new ArrayList<>();
+    public Map<String, Set<List<String>>> findProductionsWhichContainNonterminal(String nonterminal) {
+        Map<String, Set<List<String>>> productionsWhichContainNonterminal = new HashMap<>();
         this.grammar.getProductions().forEach((productionLHS, productionRHS) -> {
             Set<List<String>> productionRHSWhichStartFromCurrentNonterminal = productionRHS
                     .stream()
                     .filter(possibleProductionRHS -> possibleProductionRHS.contains(nonterminal))
                     .collect(Collectors.toSet());
             if (! productionRHSWhichStartFromCurrentNonterminal.isEmpty()) {
-                productionsWhichContainNonterminal.add(new Pair<>(productionLHS.get(0), productionRHSWhichStartFromCurrentNonterminal));
+                productionsWhichContainNonterminal.put(productionLHS.get(0), productionRHSWhichStartFromCurrentNonterminal);
             }
         });
         return productionsWhichContainNonterminal;
@@ -40,12 +40,10 @@ public class FollowSet {
     private void processNonterminal(Map<String, Set<String>> temporaryFollowSets, String nonterminal) {
         temporaryFollowSets.put(nonterminal, new HashSet<>(this.followSets.get(nonterminal)));
 
-        List<Pair<String, Set<List<String>>>> productionsWhichContainNonterminal = this.findProductionsWhichContainNonterminal(nonterminal);
-        productionsWhichContainNonterminal.forEach(pair -> {
-            String LHSNonterminal = pair.getFirst();
-            Set<List<String>> productionRHS = pair.getSecond();
-            productionRHS.forEach(possibleProductionRHS -> this.processPossibleProductionRHS(temporaryFollowSets, nonterminal, possibleProductionRHS, LHSNonterminal));
-        });
+        Map<String, Set<List<String>>> productionsWhichContainNonterminal = this.findProductionsWhichContainNonterminal(nonterminal);
+        productionsWhichContainNonterminal
+                .forEach((LHSNonterminal, productionRHS) -> productionRHS
+                        .forEach(possibleProductionRHS -> this.processPossibleProductionRHS(temporaryFollowSets, nonterminal, possibleProductionRHS, LHSNonterminal)));
     }
 
     private void initializeFollowSets() {
