@@ -13,8 +13,9 @@ public class Grammar {
     private Set<String> nonterminals;
     private Set<String> terminals;
     private Map<List<String>, Set<List<String>>> productions;
+    private final List<Pair<String, List<String>>> productionCodes;
     private String startingSymbol;
-    private boolean isCFG;
+    private final boolean isCFG;
 
     private void processProduction(String production) {
         String[] leftAndRightHandSide = production.split(this.SEPARATOR_LEFT_RIGHT_HAND_SIDE);
@@ -35,8 +36,6 @@ public class Grammar {
             while (scanner.hasNextLine()) {
                 this.processProduction(scanner.nextLine());
             }
-
-            this.isCFG = this.checkIfCFG();
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -68,8 +67,18 @@ public class Grammar {
         return true;
     }
 
+    private void assignCodesToProductions() {
+        this.productions.forEach((LHS, RHSSet) -> RHSSet
+                            .forEach(RHS -> this.productionCodes.add(new Pair<>(LHS.get(0), RHS))));
+    }
+
     public Grammar(String filePath) {
         this.loadFromFile(filePath);
+        this.isCFG = this.checkIfCFG();
+        this.productionCodes = new ArrayList<>();
+        if (this.isCFG) {
+            this.assignCodesToProductions();
+        }
     }
 
     public Set<String> getNonterminals() {
@@ -95,5 +104,9 @@ public class Grammar {
 
     public boolean isCFG() {
         return this.isCFG;
+    }
+
+    public List<Pair<String, List<String>>> getProductionCodes() {
+        return this.productionCodes;
     }
 }
