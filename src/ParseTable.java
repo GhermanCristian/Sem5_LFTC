@@ -39,12 +39,12 @@ public class ParseTable {
     private void applySecondRule(Map<String, Map<String, Pair<List<String>, Integer>>> table) {
         this.grammar.getTerminals().forEach(terminal -> {
             table.putIfAbsent(terminal, new HashMap<>());
-            table.get(terminal).put(terminal, new Pair<>(List.of(Constants.POP), Constants.NO_CODE));
+            table.get(terminal).put(terminal, new Pair<>(List.of(Constants.POP), Constants.POP_CODE));
         });
     }
 
     private void applyThirdRule(Map<String, Map<String, Pair<List<String>, Integer>>> table) {
-        table.putIfAbsent(Constants.END_OF_INPUT, Map.of(Constants.END_OF_INPUT, new Pair<>(List.of(Constants.ACCEPTED), Constants.NO_CODE)));
+        table.putIfAbsent(Constants.END_OF_INPUT, Map.of(Constants.END_OF_INPUT, new Pair<>(List.of(Constants.ACCEPTED), Constants.ACCEPTED_CODE)));
     }
 
     private Map<String, Map<String, Pair<List<String>, Integer>>> generateParseTable() {
