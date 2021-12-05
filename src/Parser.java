@@ -17,27 +17,32 @@ public class Parser {
     
     private Map<String, Map<String, Pair<List<String>, Integer>>> generateParseTable() {
         Map<String, Map<String, Pair<List<String>, Integer>>> table = new HashMap<>();
-        this.grammar.getProductions().forEach((LHS, productionSet) ->
+
+        this.grammar.getProductions().forEach((LHSAsList, productionSet) ->
             productionSet.forEach(productionRHS -> {
-                table.putIfAbsent(LHS.get(0), new HashMap<>());
-                //TODO - use actual production numbers
+                String LHS = LHSAsList.get(0); // it's a CFG
+                int productionCode = this.grammar.findCodeForProduction(new Pair<>(LHS, productionRHS));
+                assert productionCode != -1;
+                table.putIfAbsent(LHS, new HashMap<>());
+
                 if (productionRHS.size() == 1 && productionRHS.get(0).equals(Constants.EPSILON)) {
-                    this.followSets.getFollowSets().get(LHS.get(0))
-                            .forEach(element -> table.get(LHS.get(0)).put(element, new Pair<>(List.of(Constants.EPSILON), 0)));
+                    this.followSets.getFollowSets().get(LHS)
+                            .forEach(element -> table.get(LHS).put(element, new Pair<>(List.of(Constants.EPSILON), productionCode)));
                 }
                 else {
                     this.firstSets.computeFIRSTConcatenationRHS(productionRHS).forEach(element -> {
                         productionRHS.remove(Constants.EPSILON);
-                        table.get(LHS.get(0)).put(element, new Pair<>(productionRHS, 0));
+                        table.get(LHS).put(element, new Pair<>(productionRHS, productionCode));
                     });
                 }
             }));
 
         this.grammar.getTerminals().forEach(terminal -> {
             table.putIfAbsent(terminal, new HashMap<>());
-            table.get(terminal).put(terminal, new Pair<>(List.of(Constants.POP), 0));
+            table.get(terminal).put(terminal, new Pair<>(List.of(Constants.POP), Constants.NO_CODE));
         });
-        table.putIfAbsent(Constants.END_OF_INPUT, Map.of(Constants.END_OF_INPUT, new Pair<>(List.of(Constants.ACCEPTED), 0)));
+
+        table.putIfAbsent(Constants.END_OF_INPUT, Map.of(Constants.END_OF_INPUT, new Pair<>(List.of(Constants.ACCEPTED), Constants.NO_CODE)));
 
         return table;
     }

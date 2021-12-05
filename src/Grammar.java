@@ -109,4 +109,8 @@ public class Grammar {
     public List<Pair<String, List<String>>> getProductionCodes() {
         return this.productionCodes;
     }
+
+    public int findCodeForProduction(Pair<String, List<String>> production) {
+        return this.productionCodes.indexOf(production);
+    }
 }
