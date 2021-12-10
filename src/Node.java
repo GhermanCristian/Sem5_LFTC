@@ -19,10 +19,6 @@ public class Node {
 
     @Override
     public String toString() {
-        return "Node{" +
-                "info='" + info + '\'' +
-                ", leftChild=" + leftChild +
-                ", rightSibling=" + rightSibling +
-                '}';
+        return this.info;
     }
 }
