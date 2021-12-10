@@ -15,11 +15,11 @@ public class Parser {
         this.sequenceEvaluator = new SequenceEvaluator(grammar.getStartingSymbol(), this.parseTable);
     }
 
-    public void parse() {
+    public void parse(List<String> sequence) {
         this.firstSets.getFirstSets().forEach((a, b) -> System.out.println(a + "---" + b));
         this.followSets.getFollowSets().forEach((a, b) -> System.out.println(a + "###" + b));
         this.parseTable.getParseTable().forEach((a, b) -> b.forEach((c, d) -> System.out.print("[" + a + "][" + c + "] = " + d + "\n")));
-        List<Integer> sequenceProductionCodes = this.sequenceEvaluator.evaluateSequence(List.of("(", "int", ")", "+", "int"));
+        List<Integer> sequenceProductionCodes = this.sequenceEvaluator.evaluateSequence(sequence);
         System.out.println(sequenceProductionCodes);
         new OutputTree(this.grammar, sequenceProductionCodes).printTree();
     }
