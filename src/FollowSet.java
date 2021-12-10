@@ -32,9 +32,9 @@ public class FollowSet {
                 temporaryFollowSets.get(nonterminal).addAll(this.followSets.get(LHSNonterminal));
             }
             else {
-                Set<String> FIRSTConcatenation = this.firstSets.computeFIRSTConcatenationRHS(elementsAfterNonterminalFirstOccurrence);
-                FIRSTConcatenation.remove(Constants.EPSILON);
-                temporaryFollowSets.get(nonterminal).addAll(FIRSTConcatenation);
+                Set<String> previousFIRST = this.firstSets.getPreviousFirst(element);
+                previousFIRST.remove(Constants.EPSILON);
+                temporaryFollowSets.get(nonterminal).addAll(previousFIRST);
             }
         });
     }
