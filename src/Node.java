@@ -17,6 +17,14 @@ public class Node {
         this.rightSibling = rightSibling;
     }
 
+    public Node getLeftChild() {
+        return this.leftChild;
+    }
+
+    public Node getRightSibling() {
+        return this.rightSibling;
+    }
+
     @Override
     public String toString() {
         return this.info;
