@@ -19,12 +19,17 @@ public class PIF {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < this.tokenPositionPairs.size(); i++) {
-            stringBuilder.append(this.tokenPositionPairs.get(i).getFirst())
-                        .append(" - ")
-                        .append(this.tokenPositionPairs.get(i).getSecond())
-                        .append(" -> ")
-                        .append(this.type.get(i))
-                        .append("\n");
+            int tokenType = this.type.get(i);
+            if (tokenType == 0) { // identifier
+                stringBuilder.append("identifier");
+            }
+            else if (tokenType == 1) { // constant
+                stringBuilder.append("constant");
+            }
+            else {
+                stringBuilder.append(this.tokenPositionPairs.get(i).getFirst());
+            }
+            stringBuilder.append("\n");
         }
         return stringBuilder.toString();
     }
