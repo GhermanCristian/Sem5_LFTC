@@ -1,19 +1,20 @@
-term;;exprOperator;;expression;;relOperator;;condition;;assignStatement;;inputStatement;;outputStatement;;ifStatement;;whileStatement;;compStatement;;type;;declarationStatement;;statement;;statementList;;program
+term;;expression;;tailExpression;;condition;;tailCondition;;assignStatement;;inputStatement;;outputStatement;;ifStatement;;optionalElseStatement;;whileStatement;;compStatement;;type;;declarationStatement;;statement;;statementList;;program
 identifier;;constant;;+;;-;;*;;/;;%;;<;;<=;;==;;>=;;>;;=;;cin>>;;cout<<;;if;;else;;while;;int;;char;;void;;struct;;main;;{;;};;(;;);;;
 program
 term->constant|identifier
-exprOperator->+|-|/|*|%
-expression->expression exprOperator term|term
-relOperator->=|<|<=|==|>=|>
-condition->expression relOperator expression
-assignStatement->identifier = expression|
+expression->term tailExpression
+tailExpression->EPS|+ expression|- expression|/ expression|* expression|% expression
+condition->expression tailCondition
+tailCondition->EPS|< condition|> condition|<= condition|>= condition|== condition
+assignStatement->identifier = expression
 inputStatement->cin>> identifier
 outputStatement->cout<< term
-ifStatement->if ( condition ) compStatement else compStatement
+ifStatement->if ( condition ) compStatement optionalElseStatement
+optionalElseStatement->else compStatement|EPS
 whileStatement->while ( condition ) compStatement
 type->int|char|void|struct
 declarationStatement->type identifier
-statement->assignStatement ;|inputStatement ;|outputStatement ;|ifStatement ;|whileStatement ;|declarationStatement ;
-statementList->statement|statement ; statementList
+statement->assignStatement|inputStatement|outputStatement|ifStatement|whileStatement|declarationStatement
+statementList->statement ; statementList|EPS
 compStatement->{ statementList }
 program->int main ( ) compStatement

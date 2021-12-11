@@ -13,12 +13,12 @@ int main() {
 	}
 	else {
 		maxTemp = b;
-	}
+	};
 	if (maxTemp > c) {
 		cout<< maxTemp;
 	}
 	else {
 		cout<< c;
-	}
+	};
 	cout<< " is the max value";
 }

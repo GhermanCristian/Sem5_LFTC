@@ -9,9 +9,9 @@ int main() {
 	while (d * d <= x) {
 		if (x % d == 0) {
 			isPrime = 0;
-		}
+		};
 		d = d + 1;
-	}
+	};
 
 	cout<< x;
 	if (isPrime == 0) {
@@ -19,5 +19,5 @@ int main() {
 	}
 	else {
 		cout<<" is prime";
-	}
+	};
 }

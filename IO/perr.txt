@@ -8,11 +8,11 @@ int main() {
 	while (x > 0) {
 		o = o * 10 + x % 10;
 		x /= 10;
-	}
+	};
 	if (o == cop) {
 		cout<< "Is palindrome";
 	}
 	else {
 		cout<< "Is not palindrome";
-	}
+	};
 }
