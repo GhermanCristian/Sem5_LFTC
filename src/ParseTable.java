@@ -25,10 +25,18 @@ public class ParseTable {
 
                 if (productionRHS.size() == 1 && productionRHS.get(0).equals(Constants.EPSILON)) {
                     this.followSets.getFollowSets().get(LHS)
-                            .forEach(element -> table.get(LHS).put(element, new Pair<>(List.of(Constants.EPSILON), productionCode)));
+                            .forEach(element -> {
+                                if (table.get(LHS).containsKey(element)) {
+                                    throw new RuntimeException("Not LL1: " + element);
+                                }
+                                table.get(LHS).put(element, new Pair<>(List.of(Constants.EPSILON), productionCode));
+                            });
                 }
                 else {
                     this.firstSets.computeFIRSTConcatenationRHS(productionRHS).forEach(element -> {
+                        if (table.get(LHS).containsKey(element)) {
+                            throw new RuntimeException("Not LL1: " + element);
+                        }
                         productionRHS.remove(Constants.EPSILON);
                         table.get(LHS).put(element, new Pair<>(productionRHS, productionCode));
                     });
