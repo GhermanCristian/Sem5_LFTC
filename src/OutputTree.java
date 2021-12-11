@@ -42,17 +42,17 @@ public class OutputTree {
     }
 
     public void printTree() {
-        List<Node> queue = new ArrayList<>();
-        queue.add(this.root);
+        List<Node> stack = new ArrayList<>();
+        stack.add(this.root);
 
-        while (!queue.isEmpty()) {
-            Node currentNode = queue.remove(0);
+        while (!stack.isEmpty()) {
+            Node currentNode = stack.remove(stack.size() - 1);
             System.out.print(currentNode + " -- ");
-            if (currentNode.getRightSibling() != null) {
-                queue.add(currentNode.getRightSibling());
-            }
             if (currentNode.getLeftChild() != null) {
-                queue.add(currentNode.getLeftChild());
+                stack.add(currentNode.getLeftChild());
+            }
+            if (currentNode.getRightSibling() != null) {
+                stack.add(currentNode.getRightSibling());
             }
         }
     }
