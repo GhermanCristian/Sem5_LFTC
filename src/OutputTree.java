@@ -10,7 +10,7 @@ public class OutputTree {
     public OutputTree(Grammar grammar, List<Integer> sequenceProductionCodes) {
         this.grammar = grammar;
         this.sequenceProductionCodes = sequenceProductionCodes;
-        this.currentProductionCodeIndex = 1;
+        this.currentProductionCodeIndex = 1; // because production 0 is already used when setting the left child of the root
 
         Pair<String, List<String>> initialProduction = grammar.getProductionCodes().get(sequenceProductionCodes.get(0));
         this.root = new Node(initialProduction.getFirst(), null, null);
@@ -19,6 +19,7 @@ public class OutputTree {
 
     private Node buildTreeRecursively(List<String> nextSymbolsOriginal) {
         if (this.currentProductionCodeIndex == this.sequenceProductionCodes.size() && nextSymbolsOriginal.size() == 1 && nextSymbolsOriginal.get(0).equals(Constants.EPSILON)) {
+            return new Node(Constants.EPSILON, null, null);
         }
         else if (nextSymbolsOriginal.isEmpty() || this.currentProductionCodeIndex >= this.sequenceProductionCodes.size()) {
             return null;
@@ -26,21 +27,16 @@ public class OutputTree {
 
         List<String> nextSymbols = new ArrayList<>(nextSymbolsOriginal);
         int currentProductionCodeIndexCopy = this.currentProductionCodeIndex; // because the field gets modified by the other recursive calls
-        String currentSymbol = nextSymbols.get(0);
-        System.out.println(currentSymbol);
-        nextSymbols.remove(0);
+        String currentSymbol = nextSymbols.remove(0);
         Node currentNode = new Node(currentSymbol, null, null);
 
         if (this.grammar.getNonterminals().contains(currentSymbol)) {
-            int currentProductionCode = this.sequenceProductionCodes.get(currentProductionCodeIndexCopy);
             this.currentProductionCodeIndex++;
+            int currentProductionCode = this.sequenceProductionCodes.get(currentProductionCodeIndexCopy);
             List<String> productionRHS = this.grammar.getProductionCodes().get(currentProductionCode).getSecond();
             currentNode.setLeftChild(this.buildTreeRecursively(productionRHS));
         }
-
-        if (! currentSymbol.equals(Constants.EPSILON)) {
-            currentNode.setRightSibling(this.buildTreeRecursively(nextSymbols));
-        }
+        currentNode.setRightSibling(this.buildTreeRecursively(nextSymbols));
 
         return currentNode;
     }
