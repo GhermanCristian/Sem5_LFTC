@@ -31,6 +31,6 @@ public class PIF {
             }
             stringBuilder.append("\n");
         }
-        return stringBuilder.toString();
+        return stringBuilder.toString().stripTrailing();
     }
 }
