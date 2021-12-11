@@ -27,7 +27,7 @@ public class ParseTable {
                     this.followSets.getFollowSets().get(LHS)
                             .forEach(element -> {
                                 if (table.get(LHS).containsKey(element)) {
-                                    throw new RuntimeException("Not LL1: " + element);
+                                    throw new RuntimeException("Not LL1: " + LHS + " - " + element);
                                 }
                                 table.get(LHS).put(element, new Pair<>(List.of(Constants.EPSILON), productionCode));
                             });
@@ -35,7 +35,7 @@ public class ParseTable {
                 else {
                     this.firstSets.computeFIRSTConcatenationRHS(productionRHS).forEach(element -> {
                         if (table.get(LHS).containsKey(element)) {
-                            throw new RuntimeException("Not LL1: " + element);
+                            throw new RuntimeException("Not LL1: " + LHS + " - " + element);
                         }
                         productionRHS.remove(Constants.EPSILON);
                         table.get(LHS).put(element, new Pair<>(productionRHS, productionCode));

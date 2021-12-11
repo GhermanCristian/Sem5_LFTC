@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Main {
     private final static String PROGRAM_FILE_NAME = "p1";
-    private final static String PROGRAM_FILE_NPATH = "IO/" + PROGRAM_FILE_NAME + ".txt";
+    private final static String PROGRAM_FILE_PATH = "IO/" + PROGRAM_FILE_NAME + ".txt";
     private final static String GRAMMAR_FILE_PATH = "IO/G2.txt";
     private final static String PIF_FILE_PATH = "IO/" + PROGRAM_FILE_NAME + "PIF.txt";
 
@@ -21,10 +21,10 @@ public class Main {
     }
 
     private static void generateSTAndPIF() {
-        MyScanner scanner = new MyScanner(PROGRAM_FILE_NPATH);
+        MyScanner scanner = new MyScanner(PROGRAM_FILE_PATH);
         scanner.scan();
-        printToFile(PROGRAM_FILE_NPATH.replace(".txt", "ST.txt"), scanner.getSymbolTable());
-        printToFile(PROGRAM_FILE_NPATH.replace(".txt", "PIF.txt"), scanner.getPif());
+        printToFile(PROGRAM_FILE_PATH.replace(".txt", "ST.txt"), scanner.getSymbolTable());
+        printToFile(PROGRAM_FILE_PATH.replace(".txt", "PIF.txt"), scanner.getPif());
     }
 
     private static List<String> loadSequenceFromFile() throws FileNotFoundException {
