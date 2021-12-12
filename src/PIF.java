@@ -2,8 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PIF {
-    private List<Pair<String, Pair<Integer, Integer>>> tokenPositionPairs;
-    private List<Integer> type;
+    private final List<Pair<String, Pair<Integer, Integer>>> tokenPositionPairs;
+    private final List<Integer> type;
 
     public PIF() {
         this.tokenPositionPairs = new ArrayList<>();
@@ -20,10 +20,10 @@ public class PIF {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < this.tokenPositionPairs.size(); i++) {
             int tokenType = this.type.get(i);
-            if (tokenType == 0) { // identifier
+            if (tokenType == 0) {
                 stringBuilder.append("identifier");
             }
-            else if (tokenType == 1) { // constant
+            else if (tokenType == 1) {
                 stringBuilder.append("constant");
             }
             else {

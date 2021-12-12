@@ -68,8 +68,7 @@ public class Grammar {
     }
 
     private void assignCodesToProductions() {
-        this.productions.forEach((LHS, RHSSet) -> RHSSet
-                            .forEach(RHS -> this.productionCodes.add(new Pair<>(LHS.get(0), RHS))));
+        this.productions.forEach((LHS, RHSSet) -> RHSSet.forEach(RHS -> this.productionCodes.add(new Pair<>(LHS.get(0), RHS))));
     }
 
     public Grammar(String filePath) {

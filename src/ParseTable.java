@@ -18,19 +18,19 @@ public class ParseTable {
     private void applyFirstRule(Map<String, Map<String, Pair<List<String>, Integer>>> table) {
         this.grammar.getProductions().forEach((LHSAsList, productionSet) ->
             productionSet.forEach(productionRHS -> {
-                String LHS = LHSAsList.get(0); // it's a CFG
+                String LHS = LHSAsList.get(0); // we know it's a CFG
                 int productionCode = this.grammar.findCodeForProduction(new Pair<>(LHS, productionRHS));
                 assert productionCode != -1;
                 table.putIfAbsent(LHS, new HashMap<>());
 
                 if (productionRHS.size() == 1 && productionRHS.get(0).equals(Constants.EPSILON)) {
                     this.followSets.getFollowSets().get(LHS)
-                            .forEach(element -> {
-                                if (table.get(LHS).containsKey(element)) {
-                                    throw new RuntimeException("Not LL1: " + LHS + " - " + element);
-                                }
-                                table.get(LHS).put(element, new Pair<>(List.of(Constants.EPSILON), productionCode));
-                            });
+                        .forEach(element -> {
+                            if (table.get(LHS).containsKey(element)) {
+                                throw new RuntimeException("Not LL1: " + LHS + " - " + element);
+                            }
+                            table.get(LHS).put(element, new Pair<>(List.of(Constants.EPSILON), productionCode));
+                        });
                 }
                 else {
                     this.firstSets.computeFIRSTConcatenationRHS(productionRHS).forEach(element -> {

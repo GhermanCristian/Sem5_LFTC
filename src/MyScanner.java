@@ -14,8 +14,8 @@ public class MyScanner {
             List.of("int", "char", "void", "struct", "while", "if", "else", "main"));
 
     private final String filePath;
-    private PIF pif;
-    private SymbolTable symbolTable;
+    private final PIF pif;
+    private final SymbolTable symbolTable;
 
     public MyScanner(String filePath) {
         this.filePath = filePath;
@@ -81,6 +81,9 @@ public class MyScanner {
     public void scan() {
         List<Pair<String, Integer>> tokens = this.tokenize();
         AtomicBoolean foundLexicalError = new AtomicBoolean(false);
+        FiniteAutomaton identifierFA = new FiniteAutomaton("IO/FA_identifier.txt");
+        FiniteAutomaton constantFA = new FiniteAutomaton("IO/FA_integerConstants.txt");
+
         if (tokens == null) {
             return;
         }
@@ -95,11 +98,11 @@ public class MyScanner {
             else if (this.SEPARATORS.contains(token)) {
                 this.pif.add(new Pair<>(token, new Pair<>(-1, -1)), 4);
             }
-            else if (new FiniteAutomaton("IO/FA_identifier.txt").acceptsSequence(token)) { // identifier
+            else if (identifierFA.acceptsSequence(token)) { // identifier
                 this.symbolTable.add(token);
                 this.pif.add(new Pair<>(token, this.symbolTable.findPositionOfTerm(token)), 0);
             }
-            else if (Pattern.compile("\"[a-zA-Z0-9 ]*\"|'[a-zA-Z0-9 ]'").matcher(token).matches() || new FiniteAutomaton("IO/FA_integerConstants.txt").acceptsSequence(token)) { // constant
+            else if (Pattern.compile("\"[a-zA-Z0-9 ]*\"|'[a-zA-Z0-9 ]'").matcher(token).matches() || constantFA.acceptsSequence(token)) { // constant
                 this.symbolTable.add(token);
                 this.pif.add(new Pair<>(token, this.symbolTable.findPositionOfTerm(token)), 1);
             }

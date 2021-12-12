@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 public class SymbolTable {
-    private Integer size;
-    private ArrayList<ArrayList<String>> table;
+    private final Integer size;
+    private final ArrayList<ArrayList<String>> table;
 
     private Integer hashFunction(String key) {
         int ASCIISum = 0;
@@ -10,13 +10,6 @@ public class SymbolTable {
             ASCIISum = (ASCIISum + key.charAt(i)) % size;
         }
         return ASCIISum % size;
-    }
-
-    public String findByPosition(Pair<Integer, Integer> position) {
-        if (this.table.size() <= position.getFirst() || this.table.get(position.getFirst()).size() <= position.getSecond()) {
-            throw new IndexOutOfBoundsException("Invalid position");
-        }
-        return this.table.get(position.getFirst()).get(position.getSecond());
     }
 
     public boolean containsTerm(String term) {

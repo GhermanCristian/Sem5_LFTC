@@ -17,26 +17,25 @@ public class OutputTree {
         this.root.setLeftChild(this.buildTreeRecursively(initialProduction.getSecond()));
     }
 
-    private Node buildTreeRecursively(List<String> nextSymbolsOriginal) {
-        if (this.currentProductionCodeIndex == this.sequenceProductionCodes.size() && nextSymbolsOriginal.size() == 1 && nextSymbolsOriginal.get(0).equals(Constants.EPSILON)) {
+    private Node buildTreeRecursively(List<String> nextSymbols) {
+        if (nextSymbols.size() == 1 && nextSymbols.get(0).equals(Constants.EPSILON)) {
             return new Node(Constants.EPSILON, null, null);
         }
-        else if (nextSymbolsOriginal.isEmpty() || this.currentProductionCodeIndex >= this.sequenceProductionCodes.size()) {
+        if (nextSymbols.isEmpty() || this.currentProductionCodeIndex >= this.sequenceProductionCodes.size()) {
             return null;
         }
 
-        List<String> nextSymbols = new ArrayList<>(nextSymbolsOriginal);
-        int currentProductionCodeIndexCopy = this.currentProductionCodeIndex; // because the field gets modified by the other recursive calls
-        String currentSymbol = nextSymbols.remove(0);
+        List<String> nextSymbolsCopy = new ArrayList<>(nextSymbols); // need a copy because we're modifying the list
+        String currentSymbol = nextSymbolsCopy.remove(0);
         Node currentNode = new Node(currentSymbol, null, null);
 
         if (this.grammar.getNonterminals().contains(currentSymbol)) {
+            int currentProductionCode = this.sequenceProductionCodes.get(this.currentProductionCodeIndex);
             this.currentProductionCodeIndex++;
-            int currentProductionCode = this.sequenceProductionCodes.get(currentProductionCodeIndexCopy);
             List<String> productionRHS = this.grammar.getProductionCodes().get(currentProductionCode).getSecond();
             currentNode.setLeftChild(this.buildTreeRecursively(productionRHS));
         }
-        currentNode.setRightSibling(this.buildTreeRecursively(nextSymbols));
+        currentNode.setRightSibling(this.buildTreeRecursively(nextSymbolsCopy));
 
         return currentNode;
     }
